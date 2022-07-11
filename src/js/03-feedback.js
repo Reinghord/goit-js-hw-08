@@ -1,5 +1,6 @@
+//Imports
 import throttle from 'lodash.throttle';
-
+//Refs
 const { form, email, message } = {
   form: document.querySelector('.feedback-form'),
   email: document.querySelector('input'),
@@ -7,13 +8,16 @@ const { form, email, message } = {
 };
 
 const storageObject = {};
+//Function to store input data into local storage
 const onInputStoreData = function (e) {
   storageObject[e.target.name] = e.target.value;
   localStorage.setItem('feedback-form-state', JSON.stringify(storageObject));
 };
 
+//Event Listener with throttle for form inputs
 form.addEventListener('input', throttle(onInputStoreData, 500));
 
+//Check for local storage and adding data to inputs on reload
 const getStorageObject = localStorage.getItem('feedback-form-state');
 const parsed = JSON.parse(getStorageObject);
 
@@ -26,10 +30,11 @@ if (getStorageObject !== null) {
   }
 }
 
+//Function on submit to reset form, remove local storage data and log in console current data
 form.addEventListener('submit', e => {
   e.preventDefault();
-
-  console.log('This is current data from Local Storage', parsed);
+  const submitParsed = JSON.parse(localStorage.getItem('feedback-form-state'));
+  console.log('This is current data from Local Storage', submitParsed);
 
   localStorage.removeItem('feedback-form-state');
 
@@ -40,6 +45,5 @@ form.addEventListener('submit', e => {
 
   console.log('This is current data from form', currentData);
 
-  email.value = '';
-  message.value = '';
+  form.reset();
 });
