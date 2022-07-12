@@ -8,7 +8,7 @@ const { form, email, message } = {
 };
 
 const storageObject = {};
-//Function to store input data into local storage
+//Function to store input data in local storage
 const onInputStoreData = function (e) {
   storageObject[e.target.name] = e.target.value;
   localStorage.setItem('feedback-form-state', JSON.stringify(storageObject));
@@ -22,10 +22,10 @@ const getStorageObject = localStorage.getItem('feedback-form-state');
 const parsed = JSON.parse(getStorageObject);
 
 if (getStorageObject !== null) {
-  if (parsed.email !== undefined) {
+  if (parsed.email) {
     email.value = parsed.email;
   }
-  if (parsed.message !== undefined) {
+  if (parsed.message) {
     message.value = parsed.message;
   }
 }
